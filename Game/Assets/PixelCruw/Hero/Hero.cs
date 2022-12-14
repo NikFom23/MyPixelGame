@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Hero : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpSpeed;
+    [SerializeField] private float _damagejumpSpeed;
     [SerializeField] private LayerMask _groundLayer;
 
     [SerializeField] private float _groundCheckRadius;
@@ -14,6 +13,7 @@ public class Hero : MonoBehaviour
     private static readonly int IsGroundKey = Animator.StringToHash("is-graund");
     private static readonly int IsRunning = Animator.StringToHash("is-running");
     private static readonly int VerticalVelocity = Animator.StringToHash("verical-velocity");
+    private static readonly int Hit = Animator.StringToHash("hit");
 
 
     private SpriteRenderer _sprite;
@@ -87,5 +87,11 @@ public class Hero : MonoBehaviour
     public void SaySomthing()
     {
         Debug.Log("Something!");
+    }
+
+    public void TakeDamage()
+    {
+        _animator.SetTrigger(Hit);
+        _rigidbody.velocity =new Vector2(_rigidbody.velocity.x, _damagejumpSpeed);
     }
 }
