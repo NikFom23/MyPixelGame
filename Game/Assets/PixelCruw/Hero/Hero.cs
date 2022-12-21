@@ -10,13 +10,14 @@ public class Hero : MonoBehaviour
     [SerializeField] private float _groundCheckRadius;
     [SerializeField] private Vector3 _groundCheckPositionDelta;
 
+    [SerializeField] private SpawnComponent _footStepParticales;
+
     private static readonly int IsGroundKey = Animator.StringToHash("is-graund");
     private static readonly int IsRunning = Animator.StringToHash("is-running");
     private static readonly int VerticalVelocity = Animator.StringToHash("verical-velocity");
     private static readonly int Hit = Animator.StringToHash("hit");
 
 
-    private SpriteRenderer _sprite;
     private Rigidbody2D _rigidbody;
     private Vector2 _direction;
     private Animator _animator;
@@ -25,7 +26,6 @@ public class Hero : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _sprite = GetComponent<SpriteRenderer>();
     }
 
     public void SetDirection(Vector2 direction)
@@ -64,11 +64,11 @@ public class Hero : MonoBehaviour
     {
         if (_direction.x > 0)
         {
-            _sprite.flipX = false;
+            transform.localScale = Vector3.one;
         }
         else if (_direction.x < 0) 
         {
-            _sprite.flipX = true;
+            transform.localScale = new Vector3(-1, 1, 1);
         }
     }
 
@@ -93,5 +93,10 @@ public class Hero : MonoBehaviour
     {
         _animator.SetTrigger(Hit);
         _rigidbody.velocity =new Vector2(_rigidbody.velocity.x, _damagejumpSpeed);
+    }
+
+    public void SpawnFootDust()
+    {
+        _footStepParticales.Spawn();
     }
 }
